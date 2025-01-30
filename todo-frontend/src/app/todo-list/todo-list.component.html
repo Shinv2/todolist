@@ -1,0 +1,98 @@
+<!-- todolist.component.html -->
+<div class="container-fluid p-0 bg-image">
+  <div class="vh-100">
+    <div class="container py-4">
+      <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+        <div class="card-body">
+          <!-- Header -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Todo List</h2>
+            <button type="button" class="btn btn-outline-danger" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+          </div>
+
+          <!-- Search and Sort -->
+          <div class="mb-4">
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="searchTodos()"
+                placeholder="Search todos from database...">
+              <div *ngIf="isSearching" class="input-group-append">
+                <span class="input-group-text">
+                  <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Searching...</span>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Todo -->
+          <div class="mb-4">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="newTodoTitle"
+                placeholder="Add new todo"
+                (keyup.enter)="addTodo()">
+              <button class="btn btn-primary" (click)="addTodo()">
+                <i class="bi bi-plus-lg"></i> Add
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading Spinner -->
+          <div *ngIf="isLoading" class="text-center my-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Todo Items -->
+          <div *ngFor="let todo of todos" 
+               class="list-group-item d-flex justify-content-between align-items-center"
+               [class.bg-light]="todo.completed">
+            <div class="d-flex align-items-center gap-2 flex-grow-1">
+              <input
+                class="form-check-input mt-0"
+                type="checkbox"
+                [checked]="todo.completed"
+                (change)="CompleteTodo(todo)">
+              <span *ngIf="!todo.isEditing" 
+                    [class.text-decoration-line-through]="todo.completed"
+                    [class.text-muted]="todo.completed">
+                {{ todo.title }}
+              </span>
+              <input
+                *ngIf="todo.isEditing"
+                type="text"
+                class="form-control form-control-sm"
+                [(ngModel)]="todo.editTitle"
+                (keyup.enter)="updateTodo(todo)"
+                #editInput>
+            </div>
+            <div class="btn-group btn-group-sm">
+              <button type="button" 
+                      class="btn btn-outline-primary" 
+                      (click)="editTodo(todo)"
+                      [title]="todo.isEditing ? 'Save' : 'Edit'">
+                      {{todo.isEditing ? 'Save' : 'Edit'}}
+              </button>
+              <button type="button" 
+                      class="btn btn-outline-danger" 
+                      (click)="deleteTodo(todo)"
+                      title="Delete">
+                      delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

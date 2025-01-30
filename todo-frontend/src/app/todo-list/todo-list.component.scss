@@ -1,0 +1,28 @@
+
+.card {
+  position: relative;
+  overflow: hidden; 
+}
+
+.card-body {
+  position: relative;
+  z-index: 1; 
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+.bg-image {
+  background-image: url('../../../public/to.jpg');
+  background-size: cover;
+  background-position: center;
+}
